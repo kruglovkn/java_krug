@@ -1,21 +1,38 @@
 package ru.stqa.krug.addressbook.appmanager;
 
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import sun.plugin2.util.BrowserType;
 
 import java.util.concurrent.TimeUnit;
 
 public class ApplicationManager {
-    FirefoxDriver wd;
+    WebDriver wd;
 
     private SessionHelper sessionHelper;
     private  NavigationHelper navigationHelper;
     private ContactHelper contactHelper;
     private  GroupHelper groupHelper;
+    private String browser;
+
+    public ApplicationManager(String browser) {
+        this.browser = browser;
+    }
 
 
     public void init() {
-        wd = new FirefoxDriver(new FirefoxOptions().setLegacy(true));
+        if (browser.equals(org.openqa.selenium.remote.BrowserType.FIREFOX)) {
+            wd = new FirefoxDriver(new FirefoxOptions().setLegacy(true));
+        } else if (browser.equals(org.openqa.selenium.remote.BrowserType.CHROME)){
+            wd = new ChromeDriver();
+        } else if (browser.equals(org.openqa.selenium.remote.BrowserType.EDGE)) {
+            wd = new EdgeDriver();
+        }
+
+
         wd.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
         wd.get("http://localhost/addressbook/group.php");
         contactHelper = new ContactHelper(wd);
