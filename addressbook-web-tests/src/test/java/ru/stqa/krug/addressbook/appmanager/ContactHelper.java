@@ -7,6 +7,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.krug.addressbook.model.ContactData;
+import ru.stqa.krug.addressbook.model.GroupData;
 
 public class ContactHelper extends HelperBase{
 
@@ -28,7 +29,7 @@ public class ContactHelper extends HelperBase{
         type(By.name("email"),contactData.getEmail());
         if (creation) {
             new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
-        } else {
+                   } else {
             Assert.assertFalse(isElementPresent(By.name("new_group")));
 
        }
@@ -57,10 +58,21 @@ public class ContactHelper extends HelperBase{
     }
 
     public void selectContactModification() {
-        click(By.xpath("//table[@id='maintable']/tbody/tr[3]/td[8]/a/img"));
+        click(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img"));
     }
 
     public void updateModification() {
         click(By.xpath("//div[@id='content']/form[1]/input[22]"));
+    }
+
+    public void createContact(ContactData contact, boolean b) {
+        addNewContact();
+        fillContactData(contact,b);
+        submitNewContact();
+        goHomePage();
+    }
+
+    public boolean isThereAContact() {
+        return isElementPresent(By.name("selected[]"));
     }
 }
