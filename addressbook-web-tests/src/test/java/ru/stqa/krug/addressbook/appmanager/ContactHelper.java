@@ -3,11 +3,15 @@ package ru.stqa.krug.addressbook.appmanager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.krug.addressbook.model.ContactData;
 import ru.stqa.krug.addressbook.model.GroupData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContactHelper extends HelperBase{
 
@@ -45,8 +49,8 @@ public class ContactHelper extends HelperBase{
         click(By.linkText("home"));
     }
 
-    public void selectContact() {
-        click(By.name("selected[]"));
+    public void selectContact(int index) {
+        wd.findElements(By.name("selected[]")).get(index).click();
     }
 
     public void deleteContact() {
@@ -78,5 +82,20 @@ public class ContactHelper extends HelperBase{
 
     public int getContactCount() {
        return wd.findElements(By.name("selected[]")).size();
+    }
+
+    public List<ContactData> getContactList() {
+        List<ContactData> contacts = new ArrayList<ContactData>();
+        List<WebElement> elements = wd.findElements(By.name("selected[]"));
+        List<WebElement> cells =wd.findElements(By.tagName("td"));
+        for (WebElement element: elements) {
+            String id = element.findElement(By.tagName("input")).getAttribute("value");
+            String lastName = cells.get(1).getText();
+            String firstName= cells.get(2).getText();
+            ContactData contact = new ContactData(id, lastName, null, firstName, null, null, null,
+                    null, null);
+            contacts.add(contact);
+        }
+        return contacts;
     }
 }
