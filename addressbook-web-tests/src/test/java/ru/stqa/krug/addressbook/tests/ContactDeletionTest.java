@@ -12,9 +12,10 @@ public class ContactDeletionTest extends TestBase{
     public void ensurePrecondition() {
         app.goTo().homePage();
         if (app.contact().list().size()==0) {
-            app.contact().create(new ContactData("Konstantin", "Nikolaevich", "Kruglov",
-                    "Krug", "21 High st. apt. 11, Hudson, MA, USA", "6176718890",
-                    "kruglovkn90@gmail.com", "test1"), true);
+            app.contact().create(new ContactData().withName("Konstantin").withMiddlename("Nikolaevich")
+                    .withLastname("Kruglov").withNickname(
+                            "Krug").withAddress("21 High st. apt. 11, Hudson, MA, USA").withMobile("6176718890")
+                    .withEmail("kruglovkn90@gmail.com").withGroup("test1"), true);
         }
     }
     @Test
