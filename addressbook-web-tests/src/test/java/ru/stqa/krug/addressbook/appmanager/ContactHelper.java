@@ -8,7 +8,9 @@ import org.testng.Assert;
 import ru.stqa.krug.addressbook.model.ContactData;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ContactHelper extends HelperBase{
 
@@ -49,7 +51,9 @@ public class ContactHelper extends HelperBase{
     public void selectContact(int index) {
         wd.findElements(By.name("selected[]")).get(index).click();
     }
-
+    public void selectContactById(int id) {
+        wd.findElement(By.cssSelector("input[id = '" + id + "']")).click();
+    }
     public void deleteContact() {
         click(By.xpath("//div[@id='content']/form[2]/div[2]/input"));
     }
@@ -60,7 +64,8 @@ public class ContactHelper extends HelperBase{
 
     public void selectContactModification(int index) {wd.findElements(By.cssSelector("img[title = 'Edit']")).get(index).click();
     }
-
+    public void selectContactModificationById(int id) {wd.findElement(By.cssSelector("a[href = 'edit.php?id=" + id +"']")).click();
+    }
     public void updateModification() {
         click(By.xpath("//div[@id='content']/form[1]/input[22]"));
     }
@@ -71,8 +76,8 @@ public class ContactHelper extends HelperBase{
         submitNewContact();
         goHomePage();
     }
-    public void modify(int index, ContactData contact) {
-        selectContactModification (index);
+    public void modify(ContactData contact) {
+        selectContactModificationById (contact.getId());
         fillContactData(contact,false);
         updateModification ();
         goHomePage();
@@ -83,6 +88,13 @@ public class ContactHelper extends HelperBase{
         submitDeletion ();
         goHomePage ();
     }
+    public void delete(ContactData contact) {
+        selectContactById (contact.getId());
+        deleteContact ();
+        submitDeletion ();
+        goHomePage ();
+    }
+
     public boolean isThereAContact() {
         return isElementPresent(By.name("selected[]"));
     }
@@ -103,4 +115,18 @@ public class ContactHelper extends HelperBase{
         }
         return contacts;
     }
+    public Set<ContactData> all() {
+        Set<ContactData> contacts = new HashSet<>();
+        List<WebElement> elements = wd.findElements(By.xpath(".//tr[@name = 'entry']"));
+        for (WebElement element: elements) {
+            int id = Integer.parseInt(element.findElement(By.xpath(".//input[@name = 'selected[]']")).getAttribute("id"));
+            List<WebElement> cells =element.findElements(By.tagName("td"));
+            String lastName = cells.get(1).getText();
+            String firstName= cells.get(2).getText();
+            contacts.add(new ContactData().withId(id).withName(firstName).withLastname(lastName));
+        }
+        return contacts;
+    }
+
+
 }
