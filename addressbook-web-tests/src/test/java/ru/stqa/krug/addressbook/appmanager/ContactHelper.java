@@ -133,12 +133,10 @@ public class ContactHelper extends HelperBase{
             String lastName = cells.get(1).getText();
             String firstName= cells.get(2).getText();
             String address = cells.get(3).getText();
-            String[] emails  = cells.get(4).getText().split("\n");
-            String[] phones = cells.get(5).getText().split("\n");
-
+            String allEmails  = cells.get(4).getText();
+            String allPhones = cells.get(5).getText();
             ContactCache.add(new ContactData().withId(id).withName(firstName).withLastname(lastName).withAddress(address)
-                    .withEmail(emails[0]).withEmail2(emails[1]).withEmail3(emails[2]).withHome(phones [0]).withMobile(phones[1])
-            .withWork(phones[2]));
+                    .withAllEmails(allEmails).withAllPhones(allPhones));
         }
         return new Contacts(ContactCache);
     }
