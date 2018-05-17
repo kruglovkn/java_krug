@@ -1,5 +1,7 @@
 package ru.stqa.krug.addressbook.tests;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -8,6 +10,7 @@ import ru.stqa.krug.addressbook.model.Contacts;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -19,16 +22,16 @@ public class ContactCreationTest extends TestBase {
     public Iterator<Object[]> validContacts() throws IOException {
        File photo = new File("src/test/resources/image.jpg");
         List<Object[]> list = new ArrayList<Object[]>();
-        BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.csv")));
+        BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.json")));
+        String json = "";
         String line =reader.readLine();
         while (line!= null) {
-            String[] split = line.split(";");
-            list.add(new Object[]{new ContactData().withName(split[0]).withMiddlename(split[1]).withLastname(split[2])
-                    .withNickname(split[3]).withAddress(split[4]).withHome(split[5]).withMobile(split[6]).withWork(split[7])
-            .withEmail(split[8]).withEmail2(split[9]).withEmail3(split[10]).withGroup(split[11]).withPhoto(photo)});
+            json += line;
             line = reader.readLine();
         }
-        return list.iterator();
+        Gson gson = new Gson();
+        List<ContactData> groups = gson.fromJson(json, new TypeToken<List<ContactData>>() {}.getType());
+        return groups.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
     }
 
 

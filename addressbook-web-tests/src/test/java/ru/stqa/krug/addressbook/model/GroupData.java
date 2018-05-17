@@ -1,11 +1,15 @@
 package ru.stqa.krug.addressbook.model;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 import java.util.Objects;
 
-public class GroupData {
+  @XStreamAlias("group")
 
-
-    private int id= Integer.MAX_VALUE;;
+  public class GroupData {
+    @XStreamOmitField
+    private int id= Integer.MAX_VALUE;
     private String name;
     private String header;
     private String footer;
