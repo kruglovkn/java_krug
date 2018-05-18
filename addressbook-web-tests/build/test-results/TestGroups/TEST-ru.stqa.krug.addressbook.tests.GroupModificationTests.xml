@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ru.stqa.krug.addressbook.tests.GroupModificationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2018-05-18T22:14:13" hostname="LAPTOP-7TC6GBB8" time="4.322">
+  <properties/>
+  <testcase name="testGroupModification" classname="ru.stqa.krug.addressbook.tests.GroupModificationTests" time="4.322"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

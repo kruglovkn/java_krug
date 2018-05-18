@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ru.stqa.krug.addressbook.tests.ContactDeletionTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2018-05-18T20:55:26" hostname="LAPTOP-7TC6GBB8" time="2.916">
+  <properties/>
+  <testcase name="testContactDeletion" classname="ru.stqa.krug.addressbook.tests.ContactDeletionTest" time="2.916"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

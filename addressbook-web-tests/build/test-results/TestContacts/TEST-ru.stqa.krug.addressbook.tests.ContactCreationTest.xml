@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ru.stqa.krug.addressbook.tests.ContactCreationTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2018-05-18T21:38:57" hostname="LAPTOP-7TC6GBB8" time="28.538">
+  <properties/>
+  <testcase name="getCurrantDir" classname="ru.stqa.krug.addressbook.tests.ContactCreationTest" time="0.033"/>
+  <testcase name="testContactCreation[0](ContactData{id='2147483647', name='Konstantin 0'lastname='Kruglov 0'})" classname="ru.stqa.krug.addressbook.tests.ContactCreationTest" time="14.228"/>
+  <testcase name="testContactCreation[1](ContactData{id='2147483647', name='Konstantin 1'lastname='Kruglov 1'})" classname="ru.stqa.krug.addressbook.tests.ContactCreationTest" time="6.532"/>
+  <testcase name="testContactCreation[2](ContactData{id='2147483647', name='Konstantin 2'lastname='Kruglov 2'})" classname="ru.stqa.krug.addressbook.tests.ContactCreationTest" time="7.69"/>
+  <system-out><![CDATA[C:\learning_java\java_krug\addressbook-web-tests\.
+C:\learning_java\java_krug\addressbook-web-tests\src\test\resources\image.jpg
+true
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
