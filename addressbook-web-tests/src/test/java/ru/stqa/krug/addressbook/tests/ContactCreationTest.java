@@ -57,7 +57,7 @@ public class ContactCreationTest extends TestBase {
         ContactData contact = new ContactData().withName("Konstantin'").withMiddlename("Nikolaevich")
                 .withLastname("Kruglov").withNickname(
                         "Krug").withAddress("21 High st. apt. 11, Hudson, MA, USA").withMobile("6176718890")
-                .withEmail("kruglovkn90@gmail.com").withGroup("test1").withPhoto(photo);
+                .withEmail("kruglovkn90@gmail.com").withGroup("test 1").withPhoto(photo);
         app.contact().create(contact, true);
         assertEquals(app.contact().getContactCount(),before.size());
         Contacts after = app.db().contacts();

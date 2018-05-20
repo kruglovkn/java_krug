@@ -84,7 +84,7 @@ public class ContactDataGenerator {
                     .withEmail(String.format("kruglovkn90@gmail.com", i))
                     .withEmail2(String.format("kruglovkn90@gmail.com", i))
                     .withEmail3(String.format("kruglovkn90@gmail.com", i))
-                    .withGroup(String.format("test1", i)));
+                    .withGroup(String.format("test 1", i)));
         }
         return contacts;
     }
