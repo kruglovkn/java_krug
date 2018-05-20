@@ -2,16 +2,29 @@ package ru.stqa.krug.addressbook.model;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.hibernate.annotations.Type;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Objects;
 
   @XStreamAlias("group")
-
+  @Entity
+  @Table (name = "group_list")
   public class GroupData {
     @XStreamOmitField
+    @Id
+    @Column (name = "group_id")
     private int id= Integer.MAX_VALUE;
+    @Column (name = "group_name")
     private String name;
+      @Column (name = "group_header")
+      @Type(type = "text")
     private String header;
+      @Column (name = "group_footer")
+      @Type(type = "text")
     private String footer;
 
 
@@ -49,21 +62,7 @@ import java.util.Objects;
         return footer;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        GroupData groupData = (GroupData) o;
-        return id == groupData.id &&
-                Objects.equals(name, groupData.name);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(id, name);
-    }
-    @Override
+      @Override
     public String toString() {
         return "GroupData{" +
                 "id='" + id + '\'' +
@@ -71,4 +70,20 @@ import java.util.Objects;
                 '}';
     }
 
-}
+      @Override
+      public boolean equals(Object o) {
+          if (this == o) return true;
+          if (o == null || getClass() != o.getClass()) return false;
+          GroupData groupData = (GroupData) o;
+          return id == groupData.id &&
+                  Objects.equals(name, groupData.name) &&
+                  Objects.equals(header, groupData.header) &&
+                  Objects.equals(footer, groupData.footer);
+      }
+
+      @Override
+      public int hashCode() {
+
+          return Objects.hash(id, name, header, footer);
+      }
+  }

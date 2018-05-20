@@ -20,7 +20,7 @@ public class ContactCreationTest extends TestBase {
 
     @DataProvider
     public Iterator<Object[]> validContacts() throws IOException {
-       File photo = new File("src/test/resources/image.jpg");
+
         List<Object[]> list = new ArrayList<Object[]>();
         try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.json")))) {
             String json = "";
@@ -39,26 +39,28 @@ public class ContactCreationTest extends TestBase {
 
     @Test (dataProvider = "validContacts")
     public void testContactCreation(ContactData contact) {
+        File photo = new File("src/test/resources/image.jpg");
         app.goTo().homePage();
-        Contacts before = app.contact().all();
-        app.contact().create(contact, true);
+        Contacts before = app.db().contacts();
+        app.contact().create(contact.withPhoto(photo), true);
         assertEquals(app.contact().getContactCount(),before.size() + 1);
-        Contacts after = app.contact().all();
+        Contacts after = app.db().contacts();
         assertThat(after, equalTo(before.withAdded(
                 contact.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
 
         }
-    @Test    (enabled = false)
+    @Test
     public void testBadContactCreation() {
         app.goTo().homePage();
-        Contacts before = app.contact().all();
+        Contacts before = app.db().contacts();
+        File photo = new File("src/test/resources/image.jpg");
         ContactData contact = new ContactData().withName("Konstantin'").withMiddlename("Nikolaevich")
                 .withLastname("Kruglov").withNickname(
                         "Krug").withAddress("21 High st. apt. 11, Hudson, MA, USA").withMobile("6176718890")
-                .withEmail("kruglovkn90@gmail.com").withGroup("test1");
+                .withEmail("kruglovkn90@gmail.com").withGroup("test1").withPhoto(photo);
         app.contact().create(contact, true);
         assertEquals(app.contact().getContactCount(),before.size());
-        Contacts after = app.contact().all();
+        Contacts after = app.db().contacts();
         assertThat(after, equalTo(before));
 
     }
