@@ -8,6 +8,7 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import ru.stqa.krug.addressbook.appmanager.ApplicationManager;
+import ru.stqa.krug.addressbook.model.ContactData;
 import ru.stqa.krug.addressbook.model.Contacts;
 import ru.stqa.krug.addressbook.model.GroupData;
 import ru.stqa.krug.addressbook.model.Groups;
@@ -69,7 +70,8 @@ public class TestBase {
             Contacts contactsFromDb = app.db().contacts();
             Contacts contactsFromUi = app.contact().all();
             assertThat(contactsFromUi, equalTo(contactsFromDb.stream()
-                    .map((g)-> new GroupData().withId(g.getId()).withName(g.getName()))
+                    .map((g)-> new ContactData().withId(g.getId()).withName(g.getName())
+                            .withLastname(g.getLastname()).withAddress(g.getAddress()))
                     .collect(Collectors.toSet())));
         }
     }
