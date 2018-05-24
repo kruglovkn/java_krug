@@ -7,6 +7,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.krug.addressbook.model.ContactData;
 import ru.stqa.krug.addressbook.model.Contacts;
+import ru.stqa.krug.addressbook.model.Groups;
 
 import java.io.*;
 import java.util.*;
@@ -39,10 +40,11 @@ public class ContactCreationTest extends TestBase {
 
     @Test (dataProvider = "validContacts")
     public void testContactCreation(ContactData contact) {
+        Groups groups = app.db().groups();
         File photo = new File("src/test/resources/image.jpg");
         app.goTo().homePage();
         Contacts before = app.db().contacts();
-        app.contact().create(contact.withPhoto(photo), true);
+        app.contact().create(contact.withPhoto(photo).withGroup(groups.iterator().next()), true);
         assertEquals(app.contact().getContactCount(),before.size() + 1);
         Contacts after = app.db().contacts();
         assertThat(after, equalTo(before.withAdded(
@@ -58,7 +60,7 @@ public class ContactCreationTest extends TestBase {
         ContactData contact = new ContactData().withName("Konstantin'").withMiddlename("Nikolaevich")
                 .withLastname("Kruglov").withNickname(
                         "Krug").withAddress("21 High st. apt. 11, Hudson, MA, USA").withMobile("6176718890")
-                .withEmail("kruglovkn90@gmail.com").withGroup("test 1").withPhoto(photo);
+                .withEmail("kruglovkn90@gmail.com").withPhoto(photo);
         app.contact().create(contact, true);
         assertEquals(app.contact().getContactCount(),before.size());
         Contacts after = app.db().contacts();

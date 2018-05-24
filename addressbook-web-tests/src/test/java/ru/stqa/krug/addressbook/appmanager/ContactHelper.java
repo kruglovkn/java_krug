@@ -9,11 +9,9 @@ import ru.stqa.krug.addressbook.model.ContactData;
 import ru.stqa.krug.addressbook.model.Contacts;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-public class ContactHelper extends HelperBase{
+public class ContactHelper extends HelperBase {
 
     public ContactHelper(WebDriver wd) {
         super(wd);
@@ -24,28 +22,34 @@ public class ContactHelper extends HelperBase{
     }
 
     public void fillContactData(ContactData contactData, boolean creation) {
-        type(By.name("firstname"),contactData.getName());
-        type(By.name("middlename"),contactData.getMiddlename());
-        type(By.name("lastname"),contactData.getLastname());
-        type(By.name("nickname"),contactData.getNickname());
-        type(By.name("address"),contactData.getAddress());
-        type(By.name("mobile"),contactData.getMobile());
-        type(By.name("home"),contactData.getHome());
-        type(By.name("work"),contactData.getWork());
-        type(By.name("email"),contactData.getEmail());
-        type(By.name("email2"),contactData.getEmail2());
-        type(By.name("email3"),contactData.getEmail3());
-        attach(By.name("photo"),contactData.getPhoto());
+        type(By.name("firstname"), contactData.getName());
+        type(By.name("middlename"), contactData.getMiddlename());
+        type(By.name("lastname"), contactData.getLastname());
+        type(By.name("nickname"), contactData.getNickname());
+        type(By.name("address"), contactData.getAddress());
+        type(By.name("mobile"), contactData.getMobile());
+        type(By.name("home"), contactData.getHome());
+        type(By.name("work"), contactData.getWork());
+        type(By.name("email"), contactData.getEmail());
+        type(By.name("email2"), contactData.getEmail2());
+        type(By.name("email3"), contactData.getEmail3());
+        attach(By.name("photo"), contactData.getPhoto());
         if (creation) {
-            new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
-                   } else {
+            if (contactData.getGroups().size() > 0) {
+                Assert.assertTrue(contactData.getGroups().size() == 1);
+                new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroups().iterator().next().getName());
+            }
+        } else {
             Assert.assertFalse(isElementPresent(By.name("new_group")));
-
-       }
-        
-
+        }
     }
 
+    public void chooseGroup(ContactData contactData) {
+        if (contactData.getGroups().size() > 0) {
+            Assert.assertTrue(contactData.getGroups().size() == 1);
+            new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(contactData.getGroups().iterator().next().getName());
+        }
+}
     public void addNewContact() {
         click(By.linkText("add new"));
     }
@@ -53,6 +57,11 @@ public class ContactHelper extends HelperBase{
     public void goHomePage() {
         click(By.linkText("home"));
     }
+    private void goToGroup() {
+        click(By.xpath("//div/div[4]/div/i/a"));
+
+    }
+
 
     public void selectContact(int index) {
         wd.findElements(By.name("selected[]")).get(index).click();
@@ -74,6 +83,9 @@ public class ContactHelper extends HelperBase{
     }
     public void updateModification() {
         click(By.xpath("//div[@id='content']/form[1]/input[22]"));
+    }
+    public void addTo() {
+        click(By.xpath(".//input[@name= 'add']"));
     }
 
     public void create(ContactData contact, boolean b) {
@@ -164,4 +176,13 @@ public class ContactHelper extends HelperBase{
                 .withEmail(email).withEmail2(email2).withEmail3(email3);
 
     }
+
+    public void addToGroup(ContactData contact) {
+        chooseGroup(contact);
+        addTo();
+        goToGroup();
+    }
+
+
+
 }
