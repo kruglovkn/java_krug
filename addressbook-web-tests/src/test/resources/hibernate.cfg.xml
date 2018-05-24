@@ -55,6 +55,8 @@
 
     <mapping class="ru.stqa.krug.addressbook.model.GroupData"/>
         <mapping class="ru.stqa.krug.addressbook.model.ContactData"/>
+        <mapping class="ru.stqa.krug.addressbook.model.ContactsInGroupsData"/>
+
 
 
     </session-factory>

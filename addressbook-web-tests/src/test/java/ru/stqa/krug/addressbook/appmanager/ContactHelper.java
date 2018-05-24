@@ -46,7 +46,7 @@ public class ContactHelper extends HelperBase {
 
     public void chooseGroup(ContactData contactData) {
         if (contactData.getGroups().size() > 0) {
-            Assert.assertTrue(contactData.getGroups().size() == 1);
+            //Assert.assertTrue(contactData.getGroups().size() == 1);
             new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(contactData.getGroups().iterator().next().getName());
         }
 }
@@ -184,5 +184,7 @@ public class ContactHelper extends HelperBase {
     }
 
 
+    public void deleteFromGroup(ContactData contact) {
 
+    }
 }

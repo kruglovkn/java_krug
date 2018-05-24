@@ -1,18 +1,15 @@
 package ru.stqa.krug.addressbook.tests;
 
-import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.krug.addressbook.model.*;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class AddContactToGroupTest extends TestBase {
+public class DeleteContactFromGroupTest extends TestBase {
     @BeforeMethod
     public void ensureGroupPrecondition() {
         if (app.db().groups().size()==0) {
@@ -35,7 +32,7 @@ public class AddContactToGroupTest extends TestBase {
 
     }
     @Test
-    public void testAddContactToGroup () {
+    public void testDeleteContactFromGroup() {
         Contacts contacts = app.db().contacts();
         Groups groups = app.db().groups();
         ContactsInGroups before = app.db().contactsInGroups();
@@ -44,7 +41,7 @@ public class AddContactToGroupTest extends TestBase {
         ContactsInGroupsData moved = new ContactsInGroupsData().withContactId(contactToGroup.getId()).withGroupId(groupForContact.getId());
         app.goTo().homePage();
         app.contact().selectContactById(contactToGroup.getId());
-        app.contact().addToGroup(contactToGroup);
+        app.contact().deleteFromGroup(contactToGroup);
         ContactsInGroups after = app.db().contactsInGroups();
 
         before.add(moved);
