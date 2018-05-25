@@ -53,7 +53,7 @@ public class AddContactToGroupTestNotRight extends TestBase {
         ContactsInGroupsData moved = new ContactsInGroupsData().withContactId(contactToGroup.getId()).withGroupId(groupForContact.getId());
         app.goTo().homePage();
         app.contact().selectContactById(contactToGroup.getId());
-        app.contact().addToGroup(contactToGroup);
+       // app.contact().addToGroup(contactToGroup);
         ContactsInGroups after = app.db().contactsInGroups();
 
         before.add(moved);

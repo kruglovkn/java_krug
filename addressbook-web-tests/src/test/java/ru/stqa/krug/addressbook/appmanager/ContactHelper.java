@@ -44,10 +44,10 @@ public class ContactHelper extends HelperBase {
         }
     }
 
-    public void chooseGroup(ContactData contactData) {
+    public void chooseGroup(ContactData contactData, String groupName) {
         if (contactData.getGroups().size() > 0) {
-            //Assert.assertTrue(contactData.getGroups().size() == 1);
-            new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(contactData.getGroups().iterator().next().getName());
+            Select dropdown =new Select(wd.findElement(By.name("to_group")));
+            dropdown.selectByVisibleText(groupName);
         }
 }
     public void addNewContact() {
@@ -177,8 +177,8 @@ public class ContactHelper extends HelperBase {
 
     }
 
-    public void addToGroup(ContactData contact) {
-        chooseGroup(contact);
+    public void addToGroup(ContactData contact, String groupName) {
+        chooseGroup(contact, groupName);
         addTo();
         goToGroup();
     }

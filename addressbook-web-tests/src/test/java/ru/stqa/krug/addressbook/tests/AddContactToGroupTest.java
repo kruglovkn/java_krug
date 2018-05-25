@@ -10,6 +10,10 @@ import ru.stqa.krug.addressbook.model.Groups;
 
 import java.util.Iterator;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.testng.Assert.assertEquals;
+
 public class AddContactToGroupTest extends TestBase {
 
     @Test
@@ -34,10 +38,16 @@ public class AddContactToGroupTest extends TestBase {
             }
         }
 
-
-
+        groups.removeAll(selectedContact.getGroups());
+        GroupData selectedGroup = groups.iterator().next();
         app.contact().goHomePage();
+        Groups before = selectedContact.getGroups();
         app.contact().selectContactById(selectedContact.getId());
+        app.contact().addToGroup(selectedContact, selectedGroup.getName());
+
+        Groups after = selectedContact.getGroups();
+        before.add(selectedGroup);
+        assertThat(after, equalTo(before.withAdded(selectedGroup)));
 
 
 
