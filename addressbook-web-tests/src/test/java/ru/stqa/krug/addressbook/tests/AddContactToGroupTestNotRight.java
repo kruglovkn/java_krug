@@ -1,15 +1,18 @@
 package ru.stqa.krug.addressbook.tests;
 
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.krug.addressbook.model.*;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class DeleteContactFromGroupTest extends TestBase {
+public class AddContactToGroupTestNotRight extends TestBase {
     @BeforeMethod
     public void ensureGroupPrecondition() {
         if (app.db().groups().size()==0) {
@@ -29,19 +32,28 @@ public class DeleteContactFromGroupTest extends TestBase {
                     .withEmail("kruglovkn90@gmail.com").withEmail2("kruglovkn90@gmail.com").withEmail3("kruglovkn90@gmail.com").
                             withGroup(groups.iterator().next()).withPhoto(photo), true);
         }
-
+    }
+    @BeforeMethod
+    public void ensureContactPrecondition2() {
+        Groups groups = app.db().groups();
+        Contacts contacts = app.db().contacts();
+        for (ContactData contact: contacts) {
+            contact.getGroups();
+            return;
+        }
     }
     @Test
-    public void testDeleteContactFromGroup() {
+    public void testAddContactToGroup () {
         Contacts contacts = app.db().contacts();
         Groups groups = app.db().groups();
+
         ContactsInGroups before = app.db().contactsInGroups();
         ContactData contactToGroup = contacts.iterator().next();
         GroupData groupForContact = groups.iterator().next();
         ContactsInGroupsData moved = new ContactsInGroupsData().withContactId(contactToGroup.getId()).withGroupId(groupForContact.getId());
         app.goTo().homePage();
         app.contact().selectContactById(contactToGroup.getId());
-        app.contact().deleteFromGroup(contactToGroup);
+        app.contact().addToGroup(contactToGroup);
         ContactsInGroups after = app.db().contactsInGroups();
 
         before.add(moved);
