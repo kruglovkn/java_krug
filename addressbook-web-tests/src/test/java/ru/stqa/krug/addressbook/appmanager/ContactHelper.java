@@ -50,6 +50,11 @@ public class ContactHelper extends HelperBase {
             dropdown.selectByVisibleText(groupName);
         }
 }
+    public void selectGroup(String groupName) {
+            Select dropdown =new Select(wd.findElement(By.name("group")));
+            dropdown.selectByVisibleText(groupName);
+    }
+
     public void addNewContact() {
         click(By.linkText("add new"));
     }
@@ -57,11 +62,6 @@ public class ContactHelper extends HelperBase {
     public void goHomePage() {
         click(By.linkText("home"));
     }
-    private void goToGroup() {
-        click(By.xpath("//div/div[4]/div/i/a"));
-
-    }
-
 
     public void selectContact(int index) {
         wd.findElements(By.name("selected[]")).get(index).click();
@@ -180,11 +180,14 @@ public class ContactHelper extends HelperBase {
     public void addToGroup(ContactData contact, String groupName) {
         chooseGroup(contact, groupName);
         addTo();
-        goToGroup();
+        goHomePage();
     }
 
 
-    public void deleteFromGroup(ContactData contact) {
-
+    public void deleteFromGroup() {
+        click(By.xpath("//input[@value = 'Delete']"));
     }
+
+
+
 }

@@ -1,7 +1,6 @@
 package ru.stqa.krug.addressbook.tests;
 
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.krug.addressbook.model.ContactData;
 import ru.stqa.krug.addressbook.model.Contacts;
@@ -9,15 +8,11 @@ import ru.stqa.krug.addressbook.model.GroupData;
 import ru.stqa.krug.addressbook.model.Groups;
 
 import java.io.File;
-import java.util.Iterator;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.testng.Assert.assertEquals;
 
-public class AddContactToGroupTest extends TestBase {
+public class DeleteContactFromGroupTest extends TestBase {
     @BeforeMethod
     public void ensureGroupPrecondition() {
         if (app.db().groups().size()==0) {
@@ -36,39 +31,36 @@ public class AddContactToGroupTest extends TestBase {
         }
     }
     @Test
-    public void testAddContactToGroup() {
+    public void testDeleteContactFromGroup() {
         Groups groups = app.db().groups();
         Contacts contacts = app.db().contacts();
         int selectedId = 0;
         ContactData selectedContact = new ContactData();
         for (ContactData contact : contacts) {
-            if (!contact.getGroups().equals(groups)) {
+            if (contact.getGroups().size()>0) {
                selectedId = contact.getId();
                selectedContact = contact;
-            } if (selectedId!=0){break;}
-        }
-        if (selectedId == 0) {
-            selectedContact = new ContactData().withName("Konstantin").withMiddlename("Nikolaevich")
-                    .withLastname("Kruglov").withNickname("Krug").withAddress("21 High st. apt. 11, Hudson, MA, USA")
-                    .withMobile("6176718890").withHome("6176718890").withWork("6176718890")
-                    .withEmail("kruglovkn90@gmail.com").withEmail2("kruglovkn90@gmail.com")
-                    .withEmail3("kruglovkn90@gmail.com");
-            app.contact().create(selectedContact, true);
+            } if (selectedId!=0){
+                break;
+            } else if (selectedId == 0) {
+                selectedContact = new ContactData().withName("Konstantin").withMiddlename("Nikolaevich")
+                        .withLastname("Kruglov").withNickname("Krug").withAddress("21 High st. apt. 11, Hudson, MA, USA")
+                        .withMobile("6176718890").withHome("6176718890").withWork("6176718890")
+                        .withEmail("kruglovkn90@gmail.com").withEmail2("kruglovkn90@gmail.com")
+                        .withEmail3("kruglovkn90@gmail.com");
+                app.contact().create(selectedContact, true);
+            }
         }
 
-        groups.removeAll(selectedContact.getGroups());
-        GroupData selectedGroup = groups.iterator().next();
         app.contact().goHomePage();
+        GroupData selectedGroup = selectedContact.getGroups().iterator().next();
         Groups before = selectedContact.getGroups();
+        app.contact().selectGroup(selectedGroup.getName());
         app.contact().selectContactById(selectedContact.getId());
-        app.contact().addToGroup(selectedContact, selectedGroup.getName());
-        ContactData finalSelectedContact = selectedContact;
-        app.db().contacts().stream().filter((c) -> c.equals(finalSelectedContact)).collect(Collectors.toList());
-
-
-        Groups after = finalSelectedContact.getGroups();
-        before.add(selectedGroup);
-        assertThat(after, equalTo(before.withAdded(selectedGroup)));
+        app.contact().deleteFromGroup();
+        Groups after = selectedContact.getGroups();
+        before.remove(selectedGroup);
+        assertThat(after, equalTo(before.withOut(selectedGroup)));
 
 
 
