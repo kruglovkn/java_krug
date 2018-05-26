@@ -55,18 +55,15 @@ public class AddContactToGroupTest extends TestBase {
                     .withEmail3("kruglovkn90@gmail.com");
             app.contact().create(selectedContact, true);
         }
-
         groups.removeAll(selectedContact.getGroups());
         GroupData selectedGroup = groups.iterator().next();
-        app.contact().goHomePage();
         Groups before = selectedContact.getGroups();
+        app.contact().goHomePage();
         app.contact().selectContactById(selectedContact.getId());
         app.contact().addToGroup(selectedContact, selectedGroup.getName());
         ContactData finalSelectedContact = selectedContact;
-        app.db().contacts().stream().filter((c) -> c.equals(finalSelectedContact)).collect(Collectors.toList());
-
-
-        Groups after = finalSelectedContact.getGroups();
+        Groups after = app.db().contacts().stream().filter((c) -> c.equals(finalSelectedContact))
+                .collect(Collectors.toList()).iterator().next().getGroups();
         before.add(selectedGroup);
         assertThat(after, equalTo(before.withAdded(selectedGroup)));
 

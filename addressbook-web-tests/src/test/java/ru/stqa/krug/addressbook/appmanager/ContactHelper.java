@@ -185,7 +185,7 @@ public class ContactHelper extends HelperBase {
 
 
     public void deleteFromGroup() {
-        click(By.xpath("//input[@value = 'Delete']"));
+        click(By.xpath("//input[@name = 'remove']"));
     }
 
 
