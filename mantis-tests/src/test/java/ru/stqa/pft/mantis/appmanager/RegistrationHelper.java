@@ -16,8 +16,6 @@ public class RegistrationHelper extends HelperBase{
         type(By.name("username"),username);
         type(By.name("email"), email);
         click(By.xpath("//input[@value='Signup']"));
-
-
     }
 
     public void finish(String conformationLink, String password) {
