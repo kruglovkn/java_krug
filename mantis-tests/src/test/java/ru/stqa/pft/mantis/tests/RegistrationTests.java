@@ -18,6 +18,7 @@ public class RegistrationTests extends TestBase {
     public void startMailServer() {
         app.mail().start();
     }
+
     @Test
     public void testRegistration() throws IOException, MessagingException {
         long now = System.currentTimeMillis();
@@ -27,7 +28,7 @@ public class RegistrationTests extends TestBase {
         app.james().createUser(user, password);
         app.registration().start(user, email);
         //List<MailMessage> mailMessages = app.mail().waitForMail(2, 10000);
-        List<MailMessage> mailMessages = app.james().waitForMail(user, password, 60000);
+        List<MailMessage> mailMessages = app.james().waitForMail(user, password, 100000);
         String conformationLink = findConformationLink(mailMessages, email);
         app.registration().finish(conformationLink, password);
 
