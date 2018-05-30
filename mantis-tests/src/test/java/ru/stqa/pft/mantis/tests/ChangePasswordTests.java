@@ -11,6 +11,7 @@ import ru.stqa.pft.mantis.model.Users;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.testng.Assert.assertTrue;
 
@@ -23,16 +24,18 @@ public class ChangePasswordTests extends TestBase {
 
     @Test
     public void testPasswordChange() throws IOException, MessagingException {
-        Users users = app.db().users();
-        UserData user = users.iterator().next();
+        UserData admin = new UserData();
+        UserData user = app.db().users().stream().filter((u)-> !u.equals(admin.withName("administrator")
+                .withId(1).withEmail("root@localhost"))).collect(Collectors.toList()).iterator().next();
         String email = user.getEmail();
+        String password = "password1";
         app.change().loginAsAdmin();
         app.change().resetUserPassword(user.getId());
-        /*List<MailMessage> mailMessages = app.mail().waitForMail(2, 10000);
+        List<MailMessage> mailMessages = app.mail().waitForMail(2, 50000);
         String conformationLink = findConformationLink(mailMessages, email);
-        app.registration().finish(conformationLink, password);
+        app.change().finish(conformationLink, password);
 
-        assertTrue(app.newSession().login(user, password));
+        assertTrue(app.newSession().login(user.getName(), password));
 
     }
 
@@ -42,8 +45,6 @@ public class ChangePasswordTests extends TestBase {
         return regex.getText(mailMessage.text);
     }
 
-*/
-    }
 
     @AfterMethod(alwaysRun = true)
     public void stopMailServer() {

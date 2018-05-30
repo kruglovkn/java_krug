@@ -20,8 +20,13 @@ public class ChangeHelper extends HelperBase {
     public void resetUserPassword(int id) {
         wd.get(app. getProperty("web.baseUrl")+ "/manage_user_page.php");
         wd.findElement(By.cssSelector("a[href='manage_user_edit_page.php?user_id=" + id +"']")).click();
-        click(By.xpath("//input[@value='Reset Password']"));
+        click(By.cssSelector("input[value='Reset Password']"));
     }
 
-
+    public void finish(String conformationLink, String password) {
+        wd.get(conformationLink);
+        type(By.name("password"), password);
+        type(By.name("password_confirm"), password);
+        click(By.cssSelector("input[value='Update User']"));
+    }
 }

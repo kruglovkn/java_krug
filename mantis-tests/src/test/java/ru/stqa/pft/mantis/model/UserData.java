@@ -33,12 +33,12 @@ public class UserData {
         return this;
     }
 
-    public UserData setName(String name) {
+    public UserData withName(String name) {
         this.name = name;
         return this;
     }
 
-    public UserData setEmail(String email) {
+    public UserData withEmail(String email) {
         this.email = email;
         return this;
     }
