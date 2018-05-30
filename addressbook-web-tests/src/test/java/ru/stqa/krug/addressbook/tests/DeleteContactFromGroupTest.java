@@ -61,8 +61,6 @@ public class DeleteContactFromGroupTest extends TestBase {
         ContactData finalSelectedContact = selectedContact;
         Groups after = app.db().contacts().stream().filter((c) -> c.equals(finalSelectedContact))
                 .collect(Collectors.toList()).iterator().next().getGroups();
-        before.add(selectedGroup);
-        before.remove(selectedGroup);
         assertThat(after, equalTo(before.withOut(selectedGroup)));
     }
 }

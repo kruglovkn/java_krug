@@ -64,7 +64,6 @@ public class AddContactToGroupTest extends TestBase {
         ContactData finalSelectedContact = selectedContact;
         Groups after = app.db().contacts().stream().filter((c) -> c.equals(finalSelectedContact))
                 .collect(Collectors.toList()).iterator().next().getGroups();
-        before.add(selectedGroup);
         assertThat(after, equalTo(before.withAdded(selectedGroup)));
 
 

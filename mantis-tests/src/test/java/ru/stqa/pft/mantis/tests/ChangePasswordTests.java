@@ -31,7 +31,7 @@ public class ChangePasswordTests extends TestBase {
         String password = "password1";
         app.change().loginAsAdmin();
         app.change().resetUserPassword(user.getId());
-        List<MailMessage> mailMessages = app.mail().waitForMail(2, 50000);
+        List<MailMessage> mailMessages = app.mail().waitForMail(1, 50000);
         String conformationLink = findConformationLink(mailMessages, email);
         app.change().finish(conformationLink, password);
 
